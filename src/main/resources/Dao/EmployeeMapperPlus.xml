@@ -25,12 +25,67 @@
         <result column="did" property="department.id"></result>
         <result column="dept_name" property="department.deptName"></result>
     </resultMap>
-<!--        Employee getEmpDeptById(Integer id);-->
-    <select id="getEmpDeptById" resultMap="empDeptResultMap">
+
+    <resultMap id="empDeptResultMap2" type="Entity.Employee">
+        <id column="id" property="id"></id>
+        <result column="last_name" property="lastName"></result>
+        <result column="email" property="email"></result>
+        <result column="gender" property="gender"></result>
+        <association property="department" javaType="Entity.Department">
+            <id column="did" property="id"></id>
+            <result column="dept_name" property="deptName"></result>
+        </association>
+    </resultMap>
+
+
+    <!--        Employee getEmpDeptById(Integer id);-->
+    <select id="getEmpDeptById" resultMap="empDeptResultMap2">
         select e.id id, e.last_name last_name, e.email, e.gender,
-        d.id did, d.dept_name
+                d.id did, d.dept_name
         from employee e, department d
         where e.dpt_id = d.id and e.id = #{id}
     </select>
+
+
+
+    <resultMap id="empDeptResultMap3" type="Entity.Employee">
+        <id column="id" property="id"></id>
+        <result column="last_name" property="lastName"></result>
+        <result column="email" property="email"></result>
+        <result column="gender" property="gender"></result>
+        <association property="department"
+                     select="Dao.DepartmentMapper.getDeptById" column="dpt_id">
+        </association>
+    </resultMap>
+
+    <resultMap id="empDeptResultMapDiscr" type="Entity.Employee">
+        <id column="id" property="id"></id>
+        <result column="last_name" property="lastName"></result>
+        <result column="email" property="email"></result>
+        <result column="gender" property="gender"></result>
+        <discriminator javaType="string" column="gender">
+            <case value="0" resultType="Entity.Employee">
+                <association property="department"
+                             select="Dao.DepartmentMapper.getDeptById" column="dpt_id">
+                </association>
+            </case>
+            <case value="1" resultType="Entity.Employee">
+                <result column="last_name" property="email"></result>
+            </case>
+        </discriminator>
+
+    </resultMap>
+    
+<!--    Employee getEmpByIdStep(Integer id);-->
+    <select id="getEmpByIdStep" resultMap="empDeptResultMap3">
+        select * from employee where id = #{id}
+    </select>
+
+<!--    List<Employee> getEmpsByDptId(Integer dptId);-->
+    <select id="getEmpsByDptId" resultType="Entity.Employee">
+        select * from employee where dpt_id = #{dptId}
+    </select>
+
+
 
 </mapper>

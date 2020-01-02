@@ -121,8 +121,8 @@ public class EmployeeTest {
         SqlSession session = sqlSessionFactory.openSession();
         try {
             EmployeeMapperPlus mapperPlus = session.getMapper(EmployeeMapperPlus.class);
-            Employee emp = mapperPlus.getEmpDeptById(3);
-            System.out.println(emp);
+            Employee empByIdStep = mapperPlus.getEmpByIdStep(2);
+            System.out.println(empByIdStep);
         }finally {
             session.close();
         }

@@ -2,6 +2,8 @@ package Dao;
 
 import Entity.Employee;
 
+import java.util.List;
+
 /**
  * @Classname EmployeeMapperPlus
  * @Description TODO
@@ -13,4 +15,9 @@ public interface EmployeeMapperPlus {
     Employee getEmpById(Integer id);
 
     Employee getEmpDeptById(Integer id);
+
+    Employee getEmpByIdStep(Integer id);
+
+    List<Employee> getEmpsByDptId(Integer dptId);
+
 }

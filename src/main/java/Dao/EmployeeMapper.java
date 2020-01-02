@@ -26,9 +26,11 @@ public interface EmployeeMapper {
 
     Employee getEmpById(Integer id);
 
+
     Employee getEmpByIdLastName(@Param("id") Integer id, @Param("lastName") String lastName);
 
     Employee getEmpByIdLastNameWithMap(Map<String, Object> map);
+
 
 
     Boolean addEmployee(Employee employee);

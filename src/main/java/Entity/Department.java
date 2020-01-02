@@ -1,5 +1,7 @@
 package Entity;
 
+import java.util.List;
+
 /**
  * @Classname Department
  * @Description TODO
@@ -11,6 +13,8 @@ public class Department {
     Integer id;
 
     String deptName;
+
+    List<Employee> emps;
 
     public Department() {
 
@@ -33,11 +37,20 @@ public class Department {
         this.deptName = deptName;
     }
 
+    public List<Employee> getEmps() {
+        return emps;
+    }
+
+    public void setEmps(List<Employee> emps) {
+        this.emps = emps;
+    }
+
     @Override
     public String toString() {
         return "Department{" +
                 "id=" + id +
                 ", deptName='" + deptName + '\'' +
+                ", emps=" + emps +
                 '}';
     }
 }
