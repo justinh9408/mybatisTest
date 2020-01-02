@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.EmployeeMapper">
+
+<!--        List<Employee> getAllEmps();-->
+    <select id="getAllEmps" resultType="Entity.Employee">
+        select * from employee
+    </select>
+
+<!-- @MapKey("id")
+     Map<Integer, Employee> getEmpsByLastNameLikeReturnMap(String lastNameLike); -->
+    <select id="getEmpsByLastNameLikeReturnMap" resultType="Entity.Employee">
+        select * from employee where last_name like #{lasNameLike}
+    </select>
+
+<!--        Map<String, Object> getEmpByIdReturnMap(Integer id);-->
+    <select id="getEmpByIdReturnMap" resultType="map">
+        select * from employee where id = #{id}
+    </select>
+
+    <select id="getEmpById"  resultType="Entity.Employee" databaseId="mysql">
+        select * from employee where id = #{id}
+    </select>
+
+<!--    Employee getEmpByIdLastNameWithMap(Map<String, Object> map);-->
+    <select id="getEmpByIdLastNameWithMap" resultType="Entity.Employee">
+        select * from employee where id = #{id} and last_name = #{lastName}
+    </select>
+
+<!--        Employee getEmpByIdLastName(@Param("id") Integer id, @Param("lastName") String lastName);-->
+    <select id="getEmpByIdLastName" resultType="Entity.Employee">
+        select * from employee where id = #{id} and last_name = #{lastName}
+    </select>
+
+    <insert id="addEmployee" parameterType="Entity.Employee" useGeneratedKeys="true" keyProperty="id">
+        insert into employee(last_name, email, gender)
+        values(#{lastName}, #{email}, #{gender})
+    </insert>
+
+    <update id="updateEmployee">
+        update employee
+        set last_name=#{lastName}, email=#{email}, gender=#{gender}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteEmployee">
+        delete from employee where id=#{id}
+    </delete>
+
+</mapper>
+

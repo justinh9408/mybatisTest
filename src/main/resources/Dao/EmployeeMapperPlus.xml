@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.EmployeeMapperPlus">
+
+    <resultMap id="empResultMap" type="Entity.Employee">
+        <id column="id" property="id"></id>
+        <result column="last_name" property="lastName"></result>
+        <result column="email" property="email"></result>
+        <result column="gender" property="gender"></result>
+    </resultMap>
+
+<!--        Employee getEmpById(Integer id);-->
+    <select id="getEmpById" resultMap="empResultMap">
+        select * from employee where id = #{id}
+    </select>
+
+
+    <resultMap id="empDeptResultMap" type="Entity.Employee">
+        <id column="id" property="id"></id>
+        <result column="last_name" property="lastName"></result>
+        <result column="email" property="email"></result>
+        <result column="gender" property="gender"></result>
+        <result column="did" property="department.id"></result>
+        <result column="dept_name" property="department.deptName"></result>
+    </resultMap>
+<!--        Employee getEmpDeptById(Integer id);-->
+    <select id="getEmpDeptById" resultMap="empDeptResultMap">
+        select e.id id, e.last_name last_name, e.email, e.gender,
+        d.id did, d.dept_name
+        from employee e, department d
+        where e.dpt_id = d.id and e.id = #{id}
+    </select>
+
+</mapper>

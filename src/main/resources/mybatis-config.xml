@@ -3,18 +3,49 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <properties resource="jdbc.properties"></properties>
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+
+    <typeAliases>
+<!--        <typeAlias type="Entity.Employee" alias="emp"></typeAlias>-->
+        <package name="Entity"/>
+    </typeAliases>
+
+    
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/springmvc"/>
-                <property name="username" value="root"/>
-                <property name="password" value="9408"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/springmvc"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
     </environments>
+
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="MySQL" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+    </databaseIdProvider>
+
     <mappers>
-        <mapper resource="Mapper/EmployeeMapper.xml"/>
+        <package name="Dao"/>
     </mappers>
+
 </configuration>

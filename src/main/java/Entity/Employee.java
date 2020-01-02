@@ -1,11 +1,14 @@
 package Entity;
 
+import org.apache.ibatis.type.Alias;
+
 /**
  * @Classname Employee
  * @Description TODO
  * @Date 2019-12-30 14:07
  * @Created by Justin
  */
+@Alias("emp")
 public class Employee {
 
     Integer id;
@@ -16,6 +19,25 @@ public class Employee {
 
     String gender;
 
+    Department department;
+
+    public Employee() {
+    }
+
+    public Employee(Integer id, String lastName, String email, String gender) {
+        this.id = id;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
     public Integer getId() {
         return id;
@@ -55,6 +77,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
+                ", department=" + department +
                 '}';
     }
 }
