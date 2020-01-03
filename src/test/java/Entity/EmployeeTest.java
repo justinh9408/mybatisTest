@@ -2,6 +2,7 @@ package Entity;
 
 import Dao.EmployeeMapper;
 import Dao.EmployeeMapperAnnotation;
+import Dao.EmployeeMapperDynamicSql;
 import Dao.EmployeeMapperPlus;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,9 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Classname EmployeeTest
@@ -128,5 +127,37 @@ public class EmployeeTest {
         }
     }
 
+
+    @Test
+    public void testDynamicSql() throws IOException {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
+            List<Employee> empWithConditionIf = mapper.findEmpsWithForeach(Arrays.asList(2,3,4));
+            for (Employee employee : empWithConditionIf)
+                System.out.println(employee);
+
+        }finally {
+            session.close();
+        }
+    }
+
+    @Test
+    public void saveEmpstest() throws IOException {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+            EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
+            List<Employee> employees = new ArrayList<>();
+            employees.add(new Employee(null,"aaa","aaa@gmail.com", "0", new Department(1)));
+            employees.add(new Employee(null,"bbb","bbb@gmail.com", "0", new Department(3)));
+            employees.add(new Employee(null,"ccc","ccc@gmail.com", "0", new Department(1)));
+            mapper.addEmps(employees);
+            session.commit();
+        }finally {
+            session.close();
+        }
+    }
 
 }
