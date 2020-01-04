@@ -46,7 +46,7 @@ public class EmployeeTest {
             Map<String, Object> empByIdReturnMap = empMapper.getEmpByIdReturnMap(2);
             System.out.println(empByIdReturnMap);
 
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -60,11 +60,11 @@ public class EmployeeTest {
             EmployeeMapper empMapper = session.getMapper(EmployeeMapper.class);
 //            Employee employee = empMapper.getEmpByIdLastName(2, "tom");
             Map<String, Object> map = new HashMap<>();
-            map.put("id",2);
+            map.put("id", 2);
             map.put("lastName", "tom");
             Employee employee = empMapper.getEmpByIdLastNameWithMap(map);
             System.out.println(employee);
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -77,7 +77,7 @@ public class EmployeeTest {
             EmployeeMapperAnnotation empMapper = session.getMapper(EmployeeMapperAnnotation.class);
             Employee employee = empMapper.getEmpById(1);
             System.out.println(employee);
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -86,7 +86,7 @@ public class EmployeeTest {
     public void testCUD() throws IOException {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
         SqlSession session = sqlSessionFactory.openSession();
-        try{
+        try {
             EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
             Employee employee1 = new Employee(null, "jerry", "jjn@gmail.com", "0");
             mapper.addEmployee(employee1);
@@ -96,7 +96,7 @@ public class EmployeeTest {
 //            System.out.println(mapper.updateEmployee(employee2));
             //手动提交
             session.commit();
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -108,7 +108,7 @@ public class EmployeeTest {
         try {
             Employee employee = session.selectOne("Dao.EmployeeMapper.getEmpById", 2);
             System.out.println(employee);
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -121,8 +121,10 @@ public class EmployeeTest {
         try {
             EmployeeMapperPlus mapperPlus = session.getMapper(EmployeeMapperPlus.class);
             Employee empByIdStep = mapperPlus.getEmpByIdStep(2);
-            System.out.println(empByIdStep);
-        }finally {
+            session.clearCache();
+            Employee empByIdStep2 = mapperPlus.getEmpByIdStep(2);
+            System.out.println(empByIdStep == empByIdStep2);
+        } finally {
             session.close();
         }
     }
@@ -134,11 +136,11 @@ public class EmployeeTest {
         SqlSession session = sqlSessionFactory.openSession();
         try {
             EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
-            List<Employee> empWithConditionIf = mapper.findEmpsWithForeach(Arrays.asList(2,3,4));
+            List<Employee> empWithConditionIf = mapper.findEmpsWithForeach(Arrays.asList(2, 3, 4));
             for (Employee employee : empWithConditionIf)
                 System.out.println(employee);
 
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -150,12 +152,12 @@ public class EmployeeTest {
         try {
             EmployeeMapperDynamicSql mapper = session.getMapper(EmployeeMapperDynamicSql.class);
             List<Employee> employees = new ArrayList<>();
-            employees.add(new Employee(null,"aaa","aaa@gmail.com", "0", new Department(1)));
-            employees.add(new Employee(null,"bbb","bbb@gmail.com", "0", new Department(3)));
-            employees.add(new Employee(null,"ccc","ccc@gmail.com", "0", new Department(1)));
+            employees.add(new Employee(null, "aaa", "aaa@gmail.com", "0", new Department(1)));
+            employees.add(new Employee(null, "bbb", "bbb@gmail.com", "0", new Department(3)));
+            employees.add(new Employee(null, "ccc", "ccc@gmail.com", "0", new Department(1)));
             mapper.addEmps(employees);
             session.commit();
-        }finally {
+        } finally {
             session.close();
         }
     }

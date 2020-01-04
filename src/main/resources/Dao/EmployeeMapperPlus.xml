@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dao.EmployeeMapperPlus">
 
+    <cache></cache>
+
     <resultMap id="empResultMap" type="Entity.Employee">
         <id column="id" property="id"></id>
         <result column="last_name" property="lastName"></result>
@@ -11,7 +13,7 @@
         <result column="gender" property="gender"></result>
     </resultMap>
 
-<!--        Employee getEmpById(Integer id);-->
+    <!--        Employee getEmpById(Integer id);-->
     <select id="getEmpById" resultMap="empResultMap">
         select * from employee where id = #{id}
     </select>
@@ -41,11 +43,10 @@
     <!--        Employee getEmpDeptById(Integer id);-->
     <select id="getEmpDeptById" resultMap="empDeptResultMap2">
         select e.id id, e.last_name last_name, e.email, e.gender,
-                d.id did, d.dept_name
+        d.id did, d.dept_name
         from employee e, department d
         where e.dpt_id = d.id and e.id = #{id}
     </select>
-
 
 
     <resultMap id="empDeptResultMap3" type="Entity.Employee">
@@ -75,17 +76,26 @@
         </discriminator>
 
     </resultMap>
-    
-<!--    Employee getEmpByIdStep(Integer id);-->
+
+    <!--    Employee getEmpByIdStep(Integer id);-->
     <select id="getEmpByIdStep" resultMap="empDeptResultMap3">
-        select * from employee where id = #{id}
+        select
+            <include refid="selectColumn">
+                <property name="uniqueId" value="id"/>
+            </include>
+        from employee where id = #{id}
     </select>
 
-<!--    List<Employee> getEmpsByDptId(Integer dptId);-->
+    <!--    List<Employee> getEmpsByDptId(Integer dptId);-->
     <select id="getEmpsByDptId" resultType="Entity.Employee">
         select * from employee where dpt_id = #{dptId}
     </select>
 
 
+    <sql id="selectColumn">
+        <if test="_parameter != null">
+            last_name, email, gender, ${uniqueId}, dpt_id
+        </if>
+    </sql>
 
 </mapper>

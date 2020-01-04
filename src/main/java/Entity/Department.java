@@ -1,5 +1,6 @@
 package Entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @Date 2020-01-01 17:08
  * @Created by Justin
  */
-public class Department {
+public class Department implements Serializable {
 
     Integer id;
 

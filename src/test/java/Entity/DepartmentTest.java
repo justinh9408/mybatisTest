@@ -23,9 +23,12 @@ public class DepartmentTest {
 
     public SqlSessionFactory getSqlSessionFactory() throws IOException {
         String resource = "mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
+
+        InputStream resourceAsStream = Resources.getResourceAsStream(resource);
+        InputStream inputStream = resourceAsStream;
         SqlSessionFactory sqlSessionFactory =
                 new SqlSessionFactoryBuilder().build(inputStream);
+
         return sqlSessionFactory;
     }
 
@@ -37,7 +40,8 @@ public class DepartmentTest {
             DepartmentMapper departmentMapper = session.getMapper(DepartmentMapper.class);
             Department dept = departmentMapper.getDeptByIdStep(1);
             System.out.println(dept.getEmps());
-        }finally {
+
+        } finally {
             session.close();
         }
     }

@@ -2,6 +2,8 @@ package Entity;
 
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
 /**
  * @Classname Employee
  * @Description TODO
@@ -9,7 +11,7 @@ import org.apache.ibatis.type.Alias;
  * @Created by Justin
  */
 @Alias("emp")
-public class Employee {
+public class Employee implements Serializable {
 
     Integer id;
 

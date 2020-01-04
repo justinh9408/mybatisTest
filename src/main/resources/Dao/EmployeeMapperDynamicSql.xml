@@ -4,26 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dao.EmployeeMapperDynamicSql">
 
-<!--    List<Employee> findEmpWithConditionIf(Employee employee);-->
-        <select id="findEmpWithConditionIf" resultType="Entity.Employee">
-            select * from employee
-            <where>
-                <if test="id != null">
-                    id = #{id}
-                </if>
-                <if test="lastName != null and lastName != ''">
-                    and last_name like #{lastName}
-                </if>
-                <if test="email != null and email.trim() != ''">
-                    and email = #{email}
-                </if>
-                <if test="gender == 0 or gender == 1">
-                    and gender = #{gender}
-                </if>
-            </where>
-        </select>
+    <cache></cache>
 
-<!--    List<Employee> findEmpWithIfandTrim(Employee employee);-->
+    <!--    List<Employee> findEmpWithConditionIf(Employee employee);-->
+    <select id="findEmpWithConditionIf" resultType="Entity.Employee">
+        select * from employee
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="lastName != null and lastName != ''">
+                and last_name like #{lastName}
+            </if>
+            <if test="email != null and email.trim() != ''">
+                and email = #{email}
+            </if>
+            <if test="gender == 0 or gender == 1">
+                and gender = #{gender}
+            </if>
+        </where>
+    </select>
+
+
+    <!--    List<Employee> findEmpWithIfandTrim(Employee employee);-->
     <select id="findEmpWithIfandTrim" resultType="Entity.Employee">
         select * from employee
         <trim prefix="where" suffixOverrides="and">
@@ -42,8 +45,9 @@
         </trim>
     </select>
 
-<!--    List<Employee> findEmpWithChoose(Employee employee);-->
+    <!--    List<Employee> findEmpWithChoose(Employee employee);-->
     <select id="findEmpWithChoose" resultType="Entity.Employee">
+        <bind name="_lastName" value="'%'+lastName+'%'"/>
         select * from employee
         <where>
             <choose>
@@ -57,7 +61,7 @@
         </where>
     </select>
 
-<!--    void updateEmpSet(Employee);-->
+    <!--    void updateEmpSet(Employee);-->
     <update id="updateEmpSet">
         update employee
         <set>
@@ -74,7 +78,7 @@
         where id = #{id}
     </update>
 
-<!--    List<Employee> findEmpsWithForeach(List<Integer> ids);-->
+    <!--    List<Employee> findEmpsWithForeach(List<Integer> ids);-->
     <select id="findEmpsWithForeach" resultType="Entity.Employee">
         select * from employee where id in
         <foreach collection="list" separator="," item="itemId"
@@ -84,7 +88,7 @@
     </select>
 
 
-<!--    void addEmps(@Param("emps") List<Employee> emps);-->
+    <!--    void addEmps(@Param("emps") List<Employee> emps);-->
     <insert id="addEmps">
         insert into employee(last_name, email, gender, dpt_id)
         values

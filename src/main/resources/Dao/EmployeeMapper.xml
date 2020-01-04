@@ -4,32 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Dao.EmployeeMapper">
 
-<!--        List<Employee> getAllEmps();-->
+    <cache></cache>
+
+    <!--        List<Employee> getAllEmps();-->
     <select id="getAllEmps" resultType="Entity.Employee">
         select * from employee
     </select>
 
-<!-- @MapKey("id")
-     Map<Integer, Employee> getEmpsByLastNameLikeReturnMap(String lastNameLike); -->
+    <!-- @MapKey("id")
+         Map<Integer, Employee> getEmpsByLastNameLikeReturnMap(String lastNameLike); -->
     <select id="getEmpsByLastNameLikeReturnMap" resultType="Entity.Employee">
         select * from employee where last_name like #{lasNameLike}
     </select>
 
-<!--        Map<String, Object> getEmpByIdReturnMap(Integer id);-->
+    <!--        Map<String, Object> getEmpByIdReturnMap(Integer id);-->
     <select id="getEmpByIdReturnMap" resultType="map">
         select * from employee where id = #{id}
     </select>
 
-    <select id="getEmpById"  resultType="Entity.Employee" databaseId="mysql">
+    <select id="getEmpById" resultType="Entity.Employee" databaseId="mysql">
         select * from employee where id = #{id}
     </select>
 
-<!--    Employee getEmpByIdLastNameWithMap(Map<String, Object> map);-->
+    <!--    Employee getEmpByIdLastNameWithMap(Map<String, Object> map);-->
     <select id="getEmpByIdLastNameWithMap" resultType="Entity.Employee">
         select * from employee where id = #{id} and last_name = #{lastName}
     </select>
 
-<!--        Employee getEmpByIdLastName(@Param("id") Integer id, @Param("lastName") String lastName);-->
+    <!--        Employee getEmpByIdLastName(@Param("id") Integer id, @Param("lastName") String lastName);-->
     <select id="getEmpByIdLastName" resultType="Entity.Employee">
         select * from employee where id = #{id} and last_name = #{lastName}
     </select>
